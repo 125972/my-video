@@ -12,8 +12,16 @@ jobs:
       - uses: actions/setup-node@main
         with:
           node-version: 18
+      
+      # 给云端服务器安装中文字体，解决方块字问题
+      - name: Install Chinese Fonts
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+      
       - run: npm i
-      - run: npx remotion render HelloWorld out/video.mp4
+      
+      # 开启4个线程疯狂渲染，速度比之前快好几倍！
+      - run: npx remotion render HelloWorld out/video.mp4 --concurrency=4
+      
       - uses: actions/upload-artifact@v4
         with:
           name: video
