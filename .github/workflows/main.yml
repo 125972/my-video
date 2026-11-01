@@ -1,0 +1,20 @@
+name: Render video
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@main
+        with:
+          node-version: 18
+      - run: npm i
+      - run: npx remotion render HelloWorld out/video.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video
+          path: out/video.mp4
